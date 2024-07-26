@@ -4,7 +4,6 @@ public class BaseUser
     public required string Name { get; set; }
     public required string Password { get; set; }
     public required string Email { get; set; }
-    public required string UserType { get; set; }
 }
 
 public class User : BaseUser
@@ -14,5 +13,5 @@ public class User : BaseUser
 
 public class Chef : BaseUser
 {
-    public string[] Recipes { get; set; } = [];
+    public ICollection<Recipe> Recipes { get; set; } = [];
 }
