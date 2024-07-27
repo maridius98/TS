@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
-public class UserService
+public class UsersService
 {
     private readonly MyDbContext _context;
 
-    public UserService(MyDbContext context)
+    public UsersService(MyDbContext context)
     {
         _context = context;
     }
@@ -67,7 +68,12 @@ public class UserService
         }
         return 400;
     }
-    
 
-    // Other methods...
+    public async Task<BaseUser> GetUser(int userId)
+    {
+        var user = await _context.FindAsync<BaseUser>(userId, false, false)
+            ?? throw new Exception("User doesn't exist");
+        return user;
+    }
+    
 }

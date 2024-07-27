@@ -1,13 +1,28 @@
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add EF Core services
 builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseSqlServer("Server=localhost;Database=TS;Trusted_Connection=True;"));
+    options.UseSqlServer("Server=(localdb)\\ts;Database=TS;Trusted_Connection=True;"));
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+
+builder.Services.AddScoped<UsersService>();
+builder.Services.AddScoped<IngredientsService>();
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.UseRouting();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseEndpoints(endpoints =>
+{
+    _ = endpoints.MapControllers();
+});
 
 app.Run();
